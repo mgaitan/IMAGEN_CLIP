@@ -23,6 +23,14 @@ def imagen_clip(directorio, duracion, audio=None, tamaño=(500, 600)):
         if archivo.is_file() and archivo.name.endswith(('.jpg','.png', '.jpeg')):
             archivo = str(archivo)
             clip = ImageClip(archivo, duration=duracion)
+
+            ancho, alto = clip.size
+            es_horizontal = ancho > alto
+            if es_horizontal:
+                clip = clip.resize(width=min(ancho, tamaño[0]*0.9))
+            else:
+                clip = clip.resize(height=min(alto, tamaño[1]*0.9))
+
             clip = CompositeVideoClip([background, clip.set_pos('center')])
             clips.append(clip)
 
