@@ -1,11 +1,12 @@
 """imagenAvideoAudio
 
 Usage:
-    {} <directorio> [--duracion=<duracion>] [--audio=<audio>]
+    {} <directorio> [--duracion=<duracion>] [--audio=<audio>] [--tamaño=<tamaño>]
 
 Options:
   -h --help                 Show this screen.
   --duracion=<duracion>     Duracion por imagen [default: 3].
+  --tamaño=<tamaño>         Tamaño del video  [default=500, 600]
 
 """
 from docopt import docopt
@@ -13,14 +14,14 @@ from pathlib import Path
 from moviepy.editor import *
 
 
-def imagen_clip(directorio, duracion, audio=None):
+def imagen_clip(directorio, duracion, audio=None, tamaño=(500, 600)):
     directorio = Path(directorio)
     clips = []
 
     for archivo in directorio.iterdir():
         if archivo.is_file() and archivo.name.endswith(('.jpg','.png', '.jpeg')):
             archivo = str(archivo)
-            clip = ImageClip(archivo, duration=duracion).resize((400, 600))
+            clip = ImageClip(archivo, duration=duracion).resize(tamaño)
             clips.append(clip)
 
     final = concatenate_videoclips(clips)
@@ -39,5 +40,8 @@ if __name__ == '__main__':
     duracion = float(argumentos['--duracion'])
     directorio = argumentos['<directorio>']
     audio = argumentos['--audio']
-    imagen_clip(directorio, duracion, audio)
+    tamaño = argumentos['--tamaño']
+    tamaño = [int(v) for v in tamaño.split(',')]
+
+    imagen_clip(directorio, duracion, audio, tamaño)
 #python3 imagenAvideoAudio.py --duracion=3 --nombre_extension=aguspoli.mp4
