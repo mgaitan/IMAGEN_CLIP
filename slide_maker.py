@@ -16,12 +16,14 @@ from moviepy.editor import *
 
 def imagen_clip(directorio, duracion, audio=None, tamaño=(500, 600)):
     directorio = Path(directorio)
+    background = ColorClip(tamaño, color=(0, 0, 0), duration=duracion)
     clips = []
 
     for archivo in directorio.iterdir():
         if archivo.is_file() and archivo.name.endswith(('.jpg','.png', '.jpeg')):
             archivo = str(archivo)
-            clip = ImageClip(archivo, duration=duracion).resize(tamaño)
+            clip = ImageClip(archivo, duration=duracion)
+            clip = CompositeVideoClip([background, clip.set_pos('center')])
             clips.append(clip)
 
     final = concatenate_videoclips(clips)
