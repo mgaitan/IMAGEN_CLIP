@@ -13,4 +13,5 @@ for archivo in directorio.iterdir():
 
 final = concatenate_videoclips(clips)                              
 final.write_videofile("mivideo.mp4", fps=15)
-
+#ipython
+#ingresar una a una la linea de comandos por terminal
