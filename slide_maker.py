@@ -35,7 +35,7 @@ def imagen_clip(directorio, duracion, audio=None, tamaño=(500, 600)):
             clips.append(clip)
 
     final = concatenate_videoclips(clips)
-    t = len(clips) * duracion
+    t = final.duration      #len(clips) * duracion
     if audio:
         miaudio = AudioFileClip(audio)
         miaudio = miaudio.set_duration(t)
